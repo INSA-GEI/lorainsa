@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://docs.loraserver.io/install/docker/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./Docker install - LoRa Server documentation_files/bootstrap.min.css">
+    <link href="./Docker install - LoRa Server documentation_files/bootstrap.min(1).css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./Docker install - LoRa Server documentation_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./Docker install - LoRa Server documentation_files/github.min.css">
+    <link rel="stylesheet" type="text/css" href="./Docker install - LoRa Server documentation_files/docs.css">
+    <title>Docker install - LoRa Server documentation</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-jumbotron">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">LoRa Server documentation</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://loraserver.io/"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to loraserver.io</a></li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-2">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="https://docs.loraserver.io/">The LoRa Server project</a></li>
+            <li><a href="https://docs.loraserver.io/lora-app-server/">LoRa App Server</a></li>
+            <li><a href="https://docs.loraserver.io/loraserver/">LoRa Server</a></li>
+            <li><a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a></li>
+            <li><a href="https://docs.loraserver.io/lora-channel-manager/">LoRa Channel Manager</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+<div class="container">
+    <div class="col-md-3">
+        <aside>
+  <div id="sidebar" class="nav-collapse">
+    <ul class="sidebar-menu">
+      
+      
+        
+          <li class="sub-menu">
+            <a>
+              <i class="fa fa-hand-o-right"></i>
+              <span>Overview</span>
+            </a>
+            <ul class="sub">
+              
+                <li><a href="https://docs.loraserver.io/overview/"> Project </a></li>
+              
+                <li><a href="https://docs.loraserver.io/overview/architecture/"> Architecture </a></li>
+              
+                <li><a href="https://docs.loraserver.io/overview/features/"> Features </a></li>
+              
+            </ul>
+          </li>
+        
+      
+        
+          <li class="sub-menu active">
+            <a>
+              <i class="fa fa-download"></i>
+              <span>Install</span>
+            </a>
+            <ul class="sub">
+              
+                <li><a href="https://docs.loraserver.io/install/quick-install/"> Quick Install </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/requirements/"> Requirements </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/install/"> General Installation </a></li>
+              
+                <li class="active"><a href="https://docs.loraserver.io/install/docker/"> Docker install </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/ansiblevagrant/"> Ansible and Vagrant Install </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/mqtt-auth/"> MQTT authentication </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/configuration/"> Configuration </a></li>
+              
+            </ul>
+          </li>
+        
+      
+        
+          <li class="sub-menu">
+            <a>
+              <i class="fa fa-user"></i>
+              <span>Use</span>
+            </a>
+            <ul class="sub">
+              
+                <li><a href="https://docs.loraserver.io/use/getting-started/"> Getting started </a></li>
+              
+            </ul>
+          </li>
+        
+      
+        
+          <li class="sub-menu">
+            <a>
+              <i class="fa fa-github"></i>
+              <span>Community &amp; support</span>
+            </a>
+            <ul class="sub">
+              
+                <li><a href="https://docs.loraserver.io/community/support/"> Support </a></li>
+              
+                <li><a href="https://docs.loraserver.io/community/contribute/"> Contribute </a></li>
+              
+                <li><a href="https://docs.loraserver.io/community/source/"> Source </a></li>
+              
+                <li><a href="https://docs.loraserver.io/community/links/"> Links </a></li>
+              
+            </ul>
+          </li>
+        
+      
+    </ul>
+  </div>
+</aside>
+    </div>
+    <div class="col-md-9">
+        
+
+<h2 id="docker-install">Docker install</h2>
+
+<p>The LoRa Server project provides <a href="https://www.docker.com/">Docker</a> containers
+for all project components. An overview of available containers can be found
+at: <a href="https://hub.docker.com/u/loraserver/">https://hub.docker.com/u/loraserver/</a>.</p>
+
+<h3 id="versioning">Versioning</h3>
+
+<ul>
+<li><code>latest</code> refers to the latest version from the <code>master</code> branch</li>
+<li>All other tags refer to tagged versions</li>
+</ul>
+
+<h3 id="docker-compose">Docker Compose</h3>
+
+<p>A <a href="https://docs.docker.com/compose/">Docker Compose</a> example can be found
+below. Please use this <code>docker-compose.yml</code> file as a starting point, not
+as a ready to use solution.</p>
+
+<pre><code class="language-yaml">version: "2"
+
+services:
+  loraserver:
+    image: loraserver/loraserver
+    environment:
+      - DB_AUTOMIGRATE=true
+      - LOG_NODE_FRAMES=true
+      - NET_ID=010203
+      - BAND=EU_863_870
+      - REDIS_URL=redis://redis:6379
+      - GW_MQTT_SERVER=tcp://mosquitto:1883
+      - GW_SERVER_JWT_SECRET=verysecret
+      - POSTGRES_DSN=postgres://loraserver_ns:loraserver_ns@postgresql_ns/loraserver_ns?sslmode=disable
+      - JS_SERVER=http://appserver:8003
+
+  appserver:
+    image: loraserver/lora-app-server
+    ports:
+      - 8080:8080
+    environment:
+      - DB_AUTOMIGRATE=true
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_DSN=postgres://loraserver_as:loraserver_as@postgresql_as/loraserver_as?sslmode=disable
+      - MQTT_SERVER=tcp://mosquitto:1883
+      - JWT_SECRET=verysecret
+      - HTTP_TLS_CERT=/etc/lora-app-server/certs/http.pem
+      - HTTP_TLS_KEY=/etc/lora-app-server/certs/http-key.pem
+      - AS_PUBLIC_SERVER=appserver:8001
+
+  gatewaybridge:
+    ports:
+      - 1700:1700/udp
+    image: loraserver/lora-gateway-bridge
+    environment:
+      - MQTT_SERVER=tcp://mosquitto:1883
+
+  postgresql_ns:
+    image: postgres:9.6-alpine
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=loraserver_ns
+      - POSTGRES_USER=loraserver_ns
+      - POSTGRES_DB=loraserver_ns
+
+  postgresql_as:
+    image: postgres:9.6-alpine
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=loraserver_as
+      - POSTGRES_USER=loraserver_as
+      - POSTGRES_DB=loraserver_as
+
+  redis:
+    ports:
+      - 6379
+    image: redis:4-alpine
+
+  mosquitto:
+    ports:
+      - 1883
+    image: eclipse-mosquitto
+</code></pre>
+
+    </div>
+</div>
+
+<script src="./Docker install - LoRa Server documentation_files/jquery.min.js"></script>
+<script src="./Docker install - LoRa Server documentation_files/bootstrap.min.js"></script>
+<script src="./Docker install - LoRa Server documentation_files/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-3512995-9', 'auto');
+ga('send', 'pageview');
+</script>
+<script async="" src="./Docker install - LoRa Server documentation_files/analytics.js"></script>
+
+
+
+</body></html>

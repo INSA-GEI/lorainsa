@@ -1,0 +1,17 @@
+Point d'acces: lora-gw05
+clef: loragw05
+
+Acces SSH:
+IP: 192.168.1.1
+login: lora
+mot de passe: C1elVentLibreLeg3rC0ton
+
+Interface de configuration reseau
+http://192.168.1.1
+login: admin
+mot de passe: loralora
+
+Interface lora-app-server
+https://192.168.1.1:8080
+login: admin
+mot de passe: admin

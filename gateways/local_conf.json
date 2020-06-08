@@ -1,0 +1,14 @@
+{
+	"gateway_conf": {
+		"gateway_ID": "28D244FFFEA75728",
+		"servers": [ 
+			 { "server_address": "127.0.0.1", "serv_port_up": 1700, "serv_port_down": 1700, "serv_enabled": true },
+			 { "server_address": "router.eu.thethings.network", "serv_port_up": 1700, "serv_port_down": 1700, "serv_enabled": false } 
+		],
+		"ref_latitude": 43.571188,
+		"ref_longitude": 1.467054,
+		"ref_altitude": 150,
+		"contact_email": "dimercur@insa-toulouse.fr",
+		"description": "insa-08256" 
+	}
+}

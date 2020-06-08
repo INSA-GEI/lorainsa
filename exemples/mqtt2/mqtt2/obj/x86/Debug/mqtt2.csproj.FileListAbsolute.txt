@@ -1,0 +1,8 @@
+/home/dimercur/Projects/mqtt2/mqtt2/bin/Debug/mqtt2.exe
+/home/dimercur/Projects/mqtt2/mqtt2/bin/Debug/mqtt2.pdb
+/home/dimercur/Projects/mqtt2/mqtt2/bin/Debug/M2Mqtt.Mono.dll
+/home/dimercur/Projects/mqtt2/mqtt2/bin/Debug/M2Mqtt.Mono.dll.mdb
+/home/dimercur/Projects/mqtt2/mqtt2/obj/x86/Debug/mqtt2.csprojResolveAssemblyReference.cache
+/home/dimercur/Projects/mqtt2/mqtt2/obj/x86/Debug/mqtt2.csproj.CoreCompileInputs.cache
+/home/dimercur/Projects/mqtt2/mqtt2/obj/x86/Debug/mqtt2.exe
+/home/dimercur/Projects/mqtt2/mqtt2/obj/x86/Debug/mqtt2.pdb

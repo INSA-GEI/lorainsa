@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)https://docs.loraserver.io/install/quick-install/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./Quick Install - LoRa Server documentation_files/bootstrap.min.css">
+    <link href="./Quick Install - LoRa Server documentation_files/bootstrap.min(1).css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./Quick Install - LoRa Server documentation_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./Quick Install - LoRa Server documentation_files/github.min.css">
+    <link rel="stylesheet" type="text/css" href="./Quick Install - LoRa Server documentation_files/docs.css">
+    <title>Quick Install - LoRa Server documentation</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-jumbotron">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">LoRa Server documentation</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://loraserver.io/"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to loraserver.io</a></li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-2">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="https://docs.loraserver.io/">The LoRa Server project</a></li>
+            <li><a href="https://docs.loraserver.io/lora-app-server/">LoRa App Server</a></li>
+            <li><a href="https://docs.loraserver.io/loraserver/">LoRa Server</a></li>
+            <li><a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a></li>
+            <li><a href="https://docs.loraserver.io/lora-channel-manager/">LoRa Channel Manager</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+<div class="container">
+    <div class="col-md-3">
+        <aside>
+  <div id="sidebar" class="nav-collapse">
+    <ul class="sidebar-menu">
+      
+      
+        
+          <li class="sub-menu">
+            <a>
+              <i class="fa fa-hand-o-right"></i>
+              <span>Overview</span>
+            </a>
+            <ul class="sub">
+              
+                <li><a href="https://docs.loraserver.io/overview/"> Project </a></li>
+              
+                <li><a href="https://docs.loraserver.io/overview/architecture/"> Architecture </a></li>
+              
+                <li><a href="https://docs.loraserver.io/overview/features/"> Features </a></li>
+              
+            </ul>
+          </li>
+        
+      
+        
+          <li class="sub-menu active">
+            <a>
+              <i class="fa fa-download"></i>
+              <span>Install</span>
+            </a>
+            <ul class="sub">
+              
+                <li class="active"><a href="https://docs.loraserver.io/install/quick-install/"> Quick Install </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/requirements/"> Requirements </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/install/"> General Installation </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/docker/"> Docker install </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/ansiblevagrant/"> Ansible and Vagrant Install </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/mqtt-auth/"> MQTT authentication </a></li>
+              
+                <li><a href="https://docs.loraserver.io/install/configuration/"> Configuration </a></li>
+              
+            </ul>
+          </li>
+        
+      
+        
+          <li class="sub-menu">
+            <a>
+              <i class="fa fa-user"></i>
+              <span>Use</span>
+            </a>
+            <ul class="sub">
+              
+                <li><a href="https://docs.loraserver.io/use/getting-started/"> Getting started </a></li>
+              
+            </ul>
+          </li>
+        
+      
+        
+          <li class="sub-menu">
+            <a>
+              <i class="fa fa-github"></i>
+              <span>Community &amp; support</span>
+            </a>
+            <ul class="sub">
+              
+                <li><a href="https://docs.loraserver.io/community/support/"> Support </a></li>
+              
+                <li><a href="https://docs.loraserver.io/community/contribute/"> Contribute </a></li>
+              
+                <li><a href="https://docs.loraserver.io/community/source/"> Source </a></li>
+              
+                <li><a href="https://docs.loraserver.io/community/links/"> Links </a></li>
+              
+            </ul>
+          </li>
+        
+      
+    </ul>
+  </div>
+</aside>
+    </div>
+    <div class="col-md-9">
+        
+
+<h2 id="quick-install">Quick Install</h2>
+
+<p>This tutorial describes the steps needed to setup the LoRa Server project
+<strong>including all requirements</strong> on a single Ubuntu 16.04 LTS instance. Note that
+this version of Ubuntu is not required by LoRa Server, but is used in this
+tutorial as it is the latest Ubuntu LTS version. Please refer to the other
+install pages for more generic installation instructions.</p>
+
+<h3 id="assumptions">Assumptions</h3>
+
+<p>Many configurations of these packages is possible. Dependent software packages
+could be installed on any number of remote servers, and the packages themselves
+could be on their own servers. However, in order to simplify the initial
+installation, we will assume the following deployment architecture:</p>
+
+<ul>
+<li>All LoRa Server components and their dependencies will be installed on a
+single server instance</li>
+<li>The <a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a> component will be installed
+on the server, but can also be installed on the gateway itself.</li>
+<li>SSL/TLS certificates will be needed for mosquitto and lora-app-server for
+these instructions, and potentially for other interfaces should the
+installation be varied from these instructions. While self-signed
+certificates are possible, it is much easier in the long run to get signed
+certificates. These details are left to the installer of this software.</li>
+</ul>
+
+<p>Of course, optimizations may need to be made depending on the performance of
+your systems. You may opt to move the PostgreSQL database to another server.
+Or you may decide to put your MQTT server on a different system, or even use a
+different server than the one recommended in this document. These and other
+installation changes are beyond the scope of this document. However, you
+should be able to find the information here that would make these changes
+relatively straight-forward.</p>
+
+<h3 id="install-requirements">Install requirements</h3>
+
+<p>Software dependencies for the LoRa Server compoments:</p>
+
+<ul>
+<li><strong>MQTT broker</strong> - A publish/subscribe protocol that allows users to publish
+information under topics that others can subscribe to. A popular
+implementation of the MQTT protocol is <a href="https://mosquitto.org/">Mosquitto</a>.</li>
+<li><strong>Redis</strong> - A database used to store relatively transient data.</li>
+<li><strong>PostgreSQL</strong> - The long-term storage database used by the open source
+packages.</li>
+</ul>
+
+<p>Use the package manager apt to install these dependencies on the Ubuntu
+16.04 LTS server:</p>
+
+<pre><code class="language-bash hljs">sudo apt install mosquitto mosquitto-clients redis-server redis-tools postgresql
+</code></pre>
+
+<h4 id="mosquitto-authentication">Mosquitto authentication</h4>
+
+<p>Mosquitto, as the main conduit for messaging between the gateways and the
+LoRa servers and the applications receiving LoRa data, should be secured to
+prevent third party access to the data. To set up Mosquitto security:</p>
+
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Create a password file for your mosquitto users, starting with a “root” user.</span>
+<span class="hljs-comment"># The “-c” parameter creates the new password file. The command will prompt for</span>
+<span class="hljs-comment"># a new password for the user.</span>
+sudo mosquitto_passwd -c /etc/mosquitto/<span class="hljs-built_in">pwd</span> loraroot
+
+<span class="hljs-comment"># Add users for the various MQTT protocol users</span>
+sudo mosquitto_passwd /etc/mosquitto/<span class="hljs-built_in">pwd</span> loragw
+sudo mosquitto_passwd /etc/mosquitto/<span class="hljs-built_in">pwd</span> loraserver
+sudo mosquitto_passwd /etc/mosquitto/<span class="hljs-built_in">pwd</span> loraappserver
+
+<span class="hljs-comment"># Secure the password file</span>
+sudo chmod 600 /etc/mosquitto/<span class="hljs-built_in">pwd</span>
+</code></pre>
+
+<p>Note that further configuration is possible, such as limiting the topics
+to which the various users can have access.  These settings are beyond the
+scope of this document.</p>
+
+<h4 id="mosquitto-configuration">Mosquitto configuration</h4>
+
+<p>Add a new local configuration file (this should survive mosquitto upgrades)
+called <code>/etc/mosquitto/conf.d/local.conf</code> with the following configuration:</p>
+
+<p>Tell mosquitto where the password file is by adding the lines:</p>
+
+<pre><code class="hljs bash">allow_anonymous <span class="hljs-literal">false</span>
+password_file /etc/mosquitto/<span class="hljs-built_in">pwd</span>
+</code></pre>
+
+<p>If you set up SSL/TLS certificates for your server (recommended for production
+environments) add lines like these pointing to the respective files.
+Using SSL/TLS is a good idea so that passwords cannot be read as they are sent
+to Mosquitto for login:</p>
+
+<pre><code class="hljs nginx"><span class="hljs-attribute">cafile</span> /etc/mosquitto/certs/ca.crt
+certfile /etc/mosquitto/certs/hostname.crt
+keyfile /etc/mosquitto/certs/hostname.key
+</code></pre>
+
+<p>After saving this configuration, restart Mosquitto with the new settings:</p>
+
+<pre><code class="language-bash hljs">sudo systemctl restart mosquitto
+</code></pre>
+
+<h4 id="postgresql-databases-and-users">PostgreSQL databases and users</h4>
+
+<p>To enter the command line utility for PostgreSQL:</p>
+
+<pre><code class="language-bash hljs">sudo -u postgres psql
+</code></pre>
+
+<p>Inside this prompt, execute the following queries to set up the server. It
+would be wise to change the usernames and passwords. Just remember to use
+these other values when setting up the configuration for loraserver and
+lora-app-server. Since these two applications both use the same table to track
+database upgrades, they must have separate databases.</p>
+
+<pre><code class="language-sql hljs"><span class="hljs-comment">-- set up the users and the passwords (note that it is important to use single quotes and a semicolon at the end!)</span>
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">role</span> loraserver_as <span class="hljs-keyword">with</span> login <span class="hljs-keyword">password</span> <span class="hljs-string">'dbpassword'</span>;
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">role</span> loraserver_ns <span class="hljs-keyword">with</span> login <span class="hljs-keyword">password</span> <span class="hljs-string">'dbpassword'</span>;
+
+<span class="hljs-comment">-- create the database for the servers</span>
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">database</span> loraserver_as <span class="hljs-keyword">with</span> owner loraserver_as;
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">database</span> loraserver_ns <span class="hljs-keyword">with</span> owner loraserver_ns;
+
+<span class="hljs-comment">-- exit psql</span>
+\q
+</code></pre>
+
+<h3 id="setup-lora-server-software-repository">Setup LoRa Server software repository</h3>
+
+<p>LoRa Server provides a repository that is compatible with the Ubuntu apt
+package system.</p>
+
+<p>Set up the key for this new repository:</p>
+
+<pre><code class="language-bash hljs">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1CE2AFD36DBCCA00
+</code></pre>
+
+<p>Add the repository to the repository list by creating a new file:</p>
+
+<pre><code class="language-bash hljs">sudo <span class="hljs-built_in">echo</span> <span class="hljs-string">"deb https://repos.loraserver.io/ubuntu xenial testing"</span> | sudo tee /etc/apt/sources.list.d/loraserver.list
+</code></pre>
+
+<p>Update the apt system:</p>
+
+<pre><code class="language-bash hljs">sudo apt update
+</code></pre>
+
+<h3 id="installing-lora-gateway-bridge">Installing LoRa Gateway Bridge</h3>
+
+<p><strong>Note:</strong> when you intent to run the <a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a>
+only on the gateways itself, you can skip this step. Running LoRa Gateway Brige
+on your server, without setting up any firewall rules (which is not covered
+in this guide) allows anybody to send data to your LoRa Server network.</p>
+
+<p>Install the package using apt:</p>
+
+<pre><code class="language-bash hljs">sudo apt install lora-gateway-bridge
+</code></pre>
+
+<p>Set up your configuration (only the most important settings are addressed here)
+by changing the configuration file /etc/default/lora-gateway-bridge:</p>
+
+<ul>
+<li><code>BIND</code> - The interface and port on which the LoRa Gateway Bridge listens for
+packets from your gateways. This should be <code>0.0.0.0:1700</code> to allow access
+on all network interfaces.</li>
+<li><code>MQTT_USERNAME</code> and <code>MQTT_PASSWORD</code> - since the MQTT server is publicly
+accessible (so <a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a> instances can
+send data), it is best to have a username and password for the server here.
+These credentials were the ones set up in the <em>Mosquitto authentication</em> step.</li>
+</ul>
+
+<h3 id="installing-lora-server">Installing LoRa Server</h3>
+
+<p>Install the package using apt:</p>
+
+<pre><code class="language-bash hljs">sudo apt install loraserver
+</code></pre>
+
+<p>Set up your configuration (only the most important settings are addressed here)
+by changing the configuration file <code>/etc/default/loraserver</code>:</p>
+
+<ul>
+<li><code>BAND</code> - The ISM band to use. E.g. for US installations, use <code>US_902_928</code>.</li>
+<li><code>BIND</code> - The port that serves up the api server. This should be
+<code>localhost:8000</code> as <a href="https://docs.loraserver.io/lora-app-server/">LoRa App Server</a> will run on the
+same machine.</li>
+<li><code>POSTGRES_DSN</code> - The URL to the postgres server. Add <code>username:password@</code>
+to the URL. e.g., <code>postgres://loraserver_ns:dbpassword@localhost/loraserver?sslmode=disable</code>.
+Be careful with this setting. It is easy to get wrong, and can produce a number
+of different error messages.</li>
+<li><code>DB_AUTOMIGRATE</code> - Leave this set to true, as it only takes a moment to run
+at server startup, and ensures that database changes will always be applied
+with each upgrade.</li>
+<li><code>GW_MQTT_USERNAME</code> and <code>GW_MQTT_PASSWORD</code> - since the MQTT server is publicly
+accessible (so <a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a> instances can
+send data), it is best to have a username and password for the server here.
+These credentials were the ones set up in the <em>Mosquitto authentication</em> step.</li>
+<li><code>GW_CREATE_ON_STATS</code> - creates a gateway record for the gateway when stats
+are seen. Otherwise gateway data must be populated manually using the
+<a href="https://docs.loraserver.io/lora-app-server/">LoRa App Server</a> UI or via the gRPC interface to
+<a href="https://docs.loraserver.io/loraserver/">LoRa Server</a>.</li>
+<li><code>GW_STATS_AGGREGATION_INTERVAL</code> - defines collection time periods for
+statistics gathering on gateways.</li>
+<li><code>GW_SERVER_JWT_SECRET</code> - a secret value used to generate the gateway tokens.
+This can contain any value, for example the output of the following
+command <code>openssl rand -base64 32</code>.</li>
+</ul>
+
+<p>Start the LoRa Server service:</p>
+
+<pre><code class="language-bash hljs">sudo systemctl start loraserver
+</code></pre>
+
+<p>Logging for loraserver is accessible via (add <code>-f</code> to <em>follow</em>):</p>
+
+<pre><code class="language-bash hljs">journalctl -u loraserver
+</code></pre>
+
+<p>Note that you may see errors at this point along the lines of:</p>
+
+<pre><code class="hljs objectivec">INFO[<span class="hljs-number">0001</span>] grpc: addrConn.resetTransport failed to create client transport: connection error: desc = <span class="hljs-string">"transport: dial tcp 0.0.0.0:8000: getsockopt: connection refused"</span>; Reconnecting to {<span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>:<span class="hljs-number">8000</span> &lt;<span class="hljs-literal">nil</span>&gt;}
+</code></pre>
+
+<p>This indicates that <a href="https://docs.loraserver.io/lora-app-server/">LoRa App Server</a> is not yet running.
+<a href="https://docs.loraserver.io/loraserver/">LoRa Server</a> is trying to communicate with LoRa App Server via
+the gRPC api. Once LoRa App Server is running, this error should stop.</p>
+
+<h3 id="installing-lora-app-server">Installing LoRa App Server</h3>
+
+<p>Install the package using apt:</p>
+
+<pre><code class="language-bash hljs">sudo apt install lora-app-server
+</code></pre>
+
+<p>Set up your configuration (only the most important settings are addressed here)
+by changing the configuration file <code>/etc/default/lora-app-server</code>:</p>
+
+<ul>
+<li><code>POSTGRES_DSN</code> - The URL to the postgres server. Add <code>username:password@</code>
+to the URL. e.g., <code>postgres://loraserver_as:dbpassword@localhost/loraappserver?sslmode=disable</code>.
+Be careful with this setting. It is easy to get wrong, and can produce a number
+of different error messages.</li>
+<li><code>DB_AUTOMIGRATE</code> - Leave this set to true, as it only takes a moment to run
+at server startup, and ensures that database changes will always be applied
+with each upgrade.</li>
+<li><code>MQTT_USERNAME</code> and <code>MQTT_PASSWORD</code> - since the MQTT server is publicly
+accessible (so <a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a> instances can
+send data), it is best to have a username and password for the server here.
+These credentials were the ones set up in the <em>Mosquitto authentication</em> step.</li>
+<li><code>BIND</code> - The port that serves up the api server. This should be
+<code>localhost:8001</code> as <a href="https://docs.loraserver.io/loraserver/">LoRa Server</a> is on the same system.</li>
+<li><code>HTTP_BIND</code> - The port that serves up the public api server used by the web UI.
+This is usually <code>0.0.0.0:8080</code> to enable access from all network interfaces,
+but can be limited to a specific interface if desired.</li>
+<li><code>HTTP_TLS_CERT</code> and <code>HTTP_TLS_KEY</code> - These settings point to the certificate
+and key files and support SSL on the web ui REST interface and the public
+gRPC interface. Since users log into the system via these interfaces from
+remote systems, these settings are very important. Note that default files
+are shipped with the software package, but they should be replaced for security.</li>
+<li><code>JWT_SECRET</code> - a secret value used to generate the JWT returned as part of
+the login process, and is used again to verify the validity of the token.
+This can be a classic password, or it could be a generated value such as one
+generated by the command <code>openssl rand -base64 32</code>.</li>
+<li><code>PW_HASH_ITERATIONS</code> - The number of iterations to use to generate a password
+hash. The goal is to have enough iterations that generation takes a second
+(and so verification takes a second) making brute force login attacks painful
+to the attacker. The default is a good place to start, but finding a good
+value for the server will take some trial and error.</li>
+</ul>
+
+<p>Start the LoRa App Server service:</p>
+
+<pre><code class="language-bash hljs">sudo systemctl start lora-app-server
+</code></pre>
+
+<p>Logging for LoRa App Server is accessible via (add <code>-f</code> to <em>follow</em>):</p>
+
+<pre><code class="language-bash hljs">journalctl -u lora-app-server
+</code></pre>
+
+<h3 id="install-lora-gateway-bridge-on-the-gateway">Install LoRa Gateway Bridge on the gateway</h3>
+
+<p>It is advised to run LoRa Gateway Bridge on each gateway itself, to enable a
+secure connection between your gateways and your server.</p>
+
+<p>External dependencies:</p>
+
+<ul>
+<li>The LoRa gateway (through the <a href="https://github.com/lora-net/packet_forwarder">packet-forwarder</a>
+software) communicates with the <a href="https://docs.loraserver.io/lora-gateway-bridge/">LoRa Gateway Bridge</a>
+via UDP.</li>
+<li><a href="https://docs.loraserver.io/lora-gateway-brige/">LoRa Gateway Bridge</a> must have access to the MQTT
+broker through which it will communicate with <a href="https://docs.loraserver.io/loraserver/">LoRa Server</a>.
+This server should be secured with SSL and passwords as previously mentioned.
+Typical installation would put this MQTT broker on the same server as
+LoRa Server and LoRa App Server.</li>
+</ul>
+
+<p>As there are many types of gateways available, please refer to the
+LoRa Gateway Bridge instructions for
+<a href="https://docs.loraserver.io/lora-gateway-bridge/install/gateway/">installing LoRa Gateway Bridge on the server</a>.</p>
+
+<h3 id="setting-up-an-initial-application">Setting up an initial application</h3>
+
+<p>In order to receive data from a device / node, that device must be associated
+with an application. This can be done via the REST interface via some external
+application, or via the UI that comes with <a href="https://docs.loraserver.io/lora-app-servr/">LoRa App Server</a>.</p>
+
+<p>To access the LoRa App Server web-interface, enter the IP address of your server
+and the port as defined in <code>HTTP_BIND</code> in your browser specifying the https
+protocol in your browser’s address bar, example:
+<code>https://localhost:8080</code>.</p>
+
+<p>This will forward to a login screen. A default administrator account is
+available at installation time with the username of <code>admin</code> and a password of
+<code>admin</code> (it would be wise to reset the password upon first login). Once logged
+in, the application dashboard appears. Click the <em>CREATE APPLICATION</em> button,
+and add an application for your device(s). This only requires an application
+name and description. Once the application is created, you can click on the
+title to get a list of the devices associated with the application (none at
+system installation). Click on the <em>CREATE NODE</em> button to create the node
+(device). The basic fields that are required are the <em>Node Name</em>,
+<em>Description</em>, <em>Device EUI</em>, <em>Application EUI</em>, and the <em>Application Key</em>.
+Other fields may or may not be of interest to your particular setup.
+Once the device and it application are created, the LoRa Server and LoRa App
+Server will be able to handle messaging from the device.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>At this point you should be able to follow the logs and see no errors.
+Also, you can user the loraroot account on Mosquitto to watch the message flow:</p>
+
+<pre><code class="language-bash hljs">mosquitto_sub -v -t <span class="hljs-string">"#"</span> -u loraroot -P {password} -h localhost -p 1883
+</code></pre>
+
+<p>Where:</p>
+
+<ul>
+<li><code>-v</code> - verbose output - includes the <em>topic</em> of the message</li>
+<li><code>-t "#"</code> - any message. <code>"#"</code> is a multi-level wildcard. Other possibilities
+include:
+
+<ul>
+<li><code>"gateway/#"</code> - any gateway messages</li>
+<li><code>"application/#"</code> - any application messages</li>
+</ul></li>
+<li><code>-u</code> - The user to log into mosquitto with</li>
+<li><code>-P</code> - The password for the user</li>
+<li><code>-h</code> - The host to log in to</li>
+<li><code>-p</code> - The mosquitto port</li>
+</ul>
+
+    </div>
+</div>
+
+<script src="./Quick Install - LoRa Server documentation_files/jquery.min.js"></script>
+<script src="./Quick Install - LoRa Server documentation_files/bootstrap.min.js"></script>
+<script src="./Quick Install - LoRa Server documentation_files/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-3512995-9', 'auto');
+ga('send', 'pageview');
+</script>
+<script async="" src="./Quick Install - LoRa Server documentation_files/analytics.js"></script>
+
+
+
+</body></html>

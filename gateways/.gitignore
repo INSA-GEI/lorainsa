@@ -1,0 +1,11 @@
+*.img
+mnt_boot/
+mnt_root/
+raspbian_lite_latest
+global_conf.json
+local_conf.json
+hostname
+
+*.deb
+*.tar.gz
+*.tgz

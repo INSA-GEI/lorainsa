@@ -1,0 +1,115 @@
+# Creation d'un reseau LoraWan 
+
+La derniere version de  ce tuto se trouve ici: https://docs.loraserver.io/install/quick-install/
+
+# Prerequis
+MQTT brocker: A publish/subscribe protocol that allows users to publish information under topics that others can subscribe to. A popular implementation of the MQTT protocol is Mosquitto
+Redis: A database used to store relatively transient data
+Postgresql: The long-term storage database used by the open source packages
+
+    sudo apt install mosquitto mosquitto-clients redis-server redis-tools postgresql
+
+# Authentification de mosquitto
+# a new password for the user.
+    sudo mosquitto_passwd -c /etc/mosquitto/pwd loraroot    => mdp utilisé: mosquitto
+
+# Add users for the various MQTT protocol users
+    sudo mosquitto_passwd /etc/mosquitto/pwd loragw         => mdp utilisé: loragw
+    sudo mosquitto_passwd /etc/mosquitto/pwd loraserver     => mdp utilisé: loraserver
+    sudo mosquitto_passwd /etc/mosquitto/pwd loraappserver  => mdp utilisé: loraappserver
+
+# Secure the password file
+    sudo chmod 600 /etc/mosquitto/pwd
+
+# Creer un fichier /etc/mosquitto/conf.d/local.conf et mettre dedans
+    allow_anonymous false
+    password_file /etc/mosquitto/pwd
+
+# puis redemarrer le service 
+    sudo systemctl restart mosquitto
+
+# configuration de postgresql
+# lancer l'utiltaire en ligne de commande
+    sudo -u postgres psql
+
+#entrez ensuite les commandes suivantes:
+
+    -- set up the users and the passwords (note that it is important to use single quotes and a semicolon at the end!)
+    create role loraserver_as with login password 'dbpassword';
+    create role loraserver_ns with login password 'dbpassword';
+
+    -- create the database for the servers
+    create database loraserver_as with owner loraserver_as;
+    create database loraserver_ns with owner loraserver_ns;
+
+    -- exit psql
+    \q
+
+# ajout du depot loraserv sous apt
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1CE2AFD36DBCCA00
+    sudo echo "deb https://repos.loraserver.io/ubuntu xenial testing" | sudo tee /etc/apt/sources.list.d/loraserver.list
+    sudo apt update
+
+# installation du bridge
+    sudo apt install lora-gateway-bridge
+
+# modifiez ensuite le fichier /etc/default/lora-gateway-bridge
+    sudo nano /etc/default/lora-gateway-bridge
+# Changez le BIND (devrait etre 0.0.0.0:1700 pour acceder à tous les reseaux)
+# Mettez a jour les champs MQTT_USERNAME et MQTT_PASSWORD avec les champs utilisés pour la gateway (loragw/loragw dans notre cas)
+
+# installation du server
+    sudo apt install loraserver
+
+# mettez à jour la configuration (/etc/default/loraserver)
+    sudo nano /etc/default/loraserver
+
+BAND - The ISM band to use. E.g. for US installations, use US_902_928. (ici on utilisera EU_863_870)
+BIND - The port that serves up the api server. This should be localhost:8000 as LoRa App Server will run on the same machine.
+POSTGRES_DSN - The URL to the postgres server. Add username:password@ to the URL. e.g., postgres://loraserver_ns:dbpassword@localhost/loraserver?sslmode=disable. Be careful with this setting. It is easy to get wrong, and can produce a number of different error messages.
+DB_AUTOMIGRATE - Leave this set to true, as it only takes a moment to run at server startup, and ensures that database changes will always be applied with each upgrade.
+GW_MQTT_USERNAME and GW_MQTT_PASSWORD - since the MQTT server is publicly accessible (so LoRa Gateway Bridge instances can send data), it is best to have a username and password for the server here. These credentials were the ones set up in the Mosquitto authentication step.
+GW_CREATE_ON_STATS - creates a gateway record for the gateway when stats are seen. Otherwise gateway data must be populated manually using the LoRa App Server UI or via the gRPC interface to LoRa Server.
+GW_STATS_AGGREGATION_INTERVAL - defines collection time periods for statistics gathering on gateways.
+GW_SERVER_JWT_SECRET - a secret value used to generate the gateway tokens. This can contain any value, for example the output of the following command openssl rand -base64 32.
+
+# demarrer le serveur lora
+    sudo systemctl start loraserver
+
+# pour inspecter le login
+    sudo journalctl -u loraserver
+#RQ: des erreurs liés à gprc peuvent (doivent) se produire: normal, le lora app server ne tourne pas encore
+
+# Installer lora app server
+    sudo apt install lora-app-server
+
+# modifiez la configuration de /etc/default/lora-app-server
+    sudo nano /etc/default/lora-app-server
+
+POSTGRES_DSN - The URL to the postgres server. Add username:password@ to the URL. e.g., postgres://loraserver_as:dbpassword@localhost/loraappserver?sslmode=disable. Be careful with this setting. It is easy to get wrong, and can produce a number of different error messages.
+DB_AUTOMIGRATE - Leave this set to true, as it only takes a moment to run at server startup, and ensures that database changes will always be applied with each upgrade.
+MQTT_USERNAME and MQTT_PASSWORD - since the MQTT server is publicly accessible (so LoRa Gateway Bridge instances can send data), it is best to have a username and password for the server here. These credentials were the ones set up in the Mosquitto authentication step. (ici loragw/loragw)
+BIND - The port that serves up the api server. This should be localhost:8001 as LoRa Server is on the same system.
+HTTP_BIND - The port that serves up the public api server used by the web UI. This is usually 0.0.0.0:8080 to enable access from all network interfaces, but can be limited to a specific interface if desired.
+HTTP_TLS_CERT and HTTP_TLS_KEY - These settings point to the certificate and key files and support SSL on the web ui REST interface and the public gRPC interface. Since users log into the system via these interfaces from remote systems, these settings are very important. Note that default files are shipped with the software package, but they should be replaced for security.
+JWT_SECRET - a secret value used to generate the JWT returned as part of the login process, and is used again to verify the validity of the token. This can be a classic password, or it could be a generated value such as one generated by the command openssl rand -base64 32.
+PW_HASH_ITERATIONS - The number of iterations to use to generate a password hash. The goal is to have enough iterations that generation takes a second (and so verification takes a second) making brute force login attacks painful to the attacker. The default is a good place to start, but finding a good value for the server will take some trial and error.
+
+# redemarrer le server
+    sudo systemctl start lora-app-server
+
+# pour acceder aux logs tapez
+    sudo journalctl -u lora-app-server
+
+# pour acceder au server rest (lora-app-server) rentrz dans le navigateur https://10.1.5.191:8080
+Le login et mot de passe par defaut est admin:admin
+Je l'ai changé en admin:LoRaIOT
+
+# API REST
+L'api se trouve ici https://10.1.5.191:8080/api
+
+La base, c'est de s'authentifier d'abord, an utlisant l'api login. Cela donne un token JWT, qu'il faut par la suite fournir 
+aux autres appels de l'api via le header Grpc-Metadata-Authorization
+
+L'api permet de creer des utilisateur et de les affecter directement à des appli ou des organisation
+On peut supprimer ou modifier les utilisateurs, les appli, les organisations ...
